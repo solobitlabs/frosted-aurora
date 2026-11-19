@@ -40,7 +40,7 @@ dependencyResolutionManagement {
 ### 2. Adicione a dependência em `commonMain`
 ```kotlin
 commonMain.dependencies {
-    implementation("br.com.solobit:frosted-aurora:1.0.0")
+    implementation("br.com.solobit:frosted-aurora:1.0.1")
 }
 ```
 
