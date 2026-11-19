@@ -7,44 +7,17 @@ SDK Compose Multiplatform (KMP) para backgrounds animados com degradês radiais 
 
 ---
 
-## Como publicar no GitHub Packages
+## Como usar no seu projeto KMP (via Maven Central — sem token)
 
-1. Crie um repositório no GitHub (`solobitlabs/frosted-aurora`) e faça push deste diretório.
-2. O workflow em `.github/workflows/publish.yml` publica automaticamente ao criar uma tag `v*` (ex: `git tag v1.0.0 && git push --tags`) ou via `workflow_dispatch`.
-3. Para publicar localmente via Gradle:
-   ```bash
-   GITHUB_ACTOR=seu_usuario GITHUB_TOKEN=seu_pat ./gradlew :frosted-aurora:publishAllPublicationsToGitHubPackagesRepository
-   ```
+Como `mavenCentral()` já vem habilitado por padrão no `settings.gradle.kts`, basta adicionar a dependência em `commonMain`:
 
----
-
-## Como usar no projeto Despensa (KMP)
-
-### 1. Adicione o repositório no `settings.gradle.kts`
-```kotlin
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-        maven {
-            url = uri("https://maven.pkg.github.com/solobitlabs/frosted-aurora")
-            credentials {
-                username = providers.gradleProperty("gpr.user").orNull ?: System.getenv("GITHUB_ACTOR")
-                password = providers.gradleProperty("gpr.key").orNull ?: System.getenv("GITHUB_TOKEN")
-            }
-        }
-    }
-}
-```
-
-### 2. Adicione a dependência em `commonMain`
 ```kotlin
 commonMain.dependencies {
     implementation("br.com.solobit:frosted-aurora:1.0.1")
 }
 ```
 
-### 3. Use em telas ou Cards
+### Exemplo de uso (Telas e Cards)
 ```kotlin
 // Tela inteira com detecção automática de claro/escuro
 FrostedAuroraBox(
@@ -66,3 +39,23 @@ Card(shape = RoundedCornerShape(24.dp)) {
     }
 }
 ```
+
+---
+
+## Como configurar a publicação no Maven Central (1ª vez)
+
+1. Crie uma conta em [central.sonatype.com](https://central.sonatype.com) e solicite o namespace **`br.com.solobit`** (validando o registro `TXT` no DNS do domínio `solobit.com.br`).
+2. Em **Account → Generate User Token**, gere o token (`username` e `password`).
+3. Gere uma chave GPG e envie a chave pública para um keyserver:
+   ```bash
+   gpg --full-generate-key
+   gpg --keyserver keyserver.ubuntu.com --send-keys SEU_KEY_ID
+   gpg --export-secret-keys --armor SEU_KEY_ID
+   ```
+4. No repositório GitHub (`Settings → Secrets and variables → Actions`), cadastre os secrets:
+   - `MAVEN_CENTRAL_USERNAME`
+   - `MAVEN_CENTRAL_PASSWORD`
+   - `SIGNING_IN_MEMORY_KEY` (saída do `--export-secret-keys --armor`)
+   - `SIGNING_IN_MEMORY_KEY_ID` (8 últimos caracteres do Key ID)
+   - `SIGNING_IN_MEMORY_KEY_PASSWORD` (senha da chave GPG)
+5. Crie e envie uma tag `v*` (ou execute **Publish & Release** manualmente na aba **Actions**).
