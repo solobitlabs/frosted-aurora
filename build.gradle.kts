@@ -1,0 +1,13 @@
+/*
+ * Frosted Aurora - Dynamic Frosted Gradient Background SDK for Compose Multiplatform
+ * Author: Willian Santos - solobit.com.br
+ * License: Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)
+ * https://creativecommons.org/licenses/by-nc/4.0/
+ */
+
+plugins {
+    id("com.android.library") version "8.6.0" apply false
+    id("org.jetbrains.kotlin.multiplatform") version "2.0.20" apply false
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.20" apply false
+    id("org.jetbrains.compose") version "1.7.0" apply false
+}
