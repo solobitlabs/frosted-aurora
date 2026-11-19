@@ -21,5 +21,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "frosted-aurora"
+rootProject.name = "frosted-aurora-sdk"
 include(":frosted-aurora")
